@@ -19,8 +19,9 @@ const View = () => {
 
             </div>
           </div>
+          {/* Right side content */}
 
-          <div>
+          <div> 
             <h1 className='font-bold text-4xl'>Lipstick</h1>
             <h3 className='text-red-600 font-bold text-xl mt-6'>₹ 230</h3>
             <h4 ><span className='font-bold'>Brand:</span>brand</h4>

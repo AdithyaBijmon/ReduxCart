@@ -1,8 +1,17 @@
 
 import { Link } from 'react-router-dom'
 import Header from '../components/Header'
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { fetchAllProducts } from '../redux/slices/productSlice'
 
 const Home = () => {
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    dispatch(fetchAllProducts)
+  },[])
+
   return (
     <>
       <Header />
