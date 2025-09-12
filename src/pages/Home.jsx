@@ -21,20 +21,27 @@ const Home = () => {
        {loading? 
        <p>Loading</p> 
        : <div className='grid grid-cols-4 gap-4'>
-          <div className="rounded p-2 shadow">
+        {
+          allProducts?.length>0?
+           allProducts?.map(product=>(
+              <div key={product?.id} className="rounded p-2 shadow">
 
             {/* Image */}
-            <img src="https://t3.ftcdn.net/jpg/05/33/57/46/360_F_533574640_yn5N7owRVh8677uTycfP7WsEirRUNU6Q.jpg" alt="no image" height={'200px'} />
+            <img src={product?.thumbnail} alt="no image" height={'200px'} />
 
             <div className="text-center">
 
               {/* Title */}
-              <h3 className='text-xl font-bold'>Title</h3>
+              <h3 className='text-xl font-bold'>{product?.title}</h3>
 
               {/* Link */}
-              <Link to={`/id/view`} className='p-1 rounded text-white bg-sky-700 mt-3 inline-block'>View more...</Link>
+              <Link to={`/${product?.id}/view`} className='p-1 rounded text-white bg-sky-700 mt-3 inline-block'>View more...</Link>
             </div>
           </div>
+           ))
+          :
+          <p>No products available</p>
+        }
         </div>}
       </div>
 
