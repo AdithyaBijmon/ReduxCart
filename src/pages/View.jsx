@@ -1,8 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Header from '../components/Header'
 
 const View = () => {
+  const {id} = useParams()
+  console.log(id)
+  
   return (
 
     <>

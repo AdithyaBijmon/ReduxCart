@@ -36,12 +36,12 @@ const Footer = () => {
                     <input type="text" className='text-gray-900 placeholder:text-gray-400 bg-white p-1 rounded-md' placeholder='Enter your email here' /><span><i class="fa-solid fa-arrow-right ms-1"></i></span>
 
                     <ul className='flex justify-evenly me-40 mt-2'>
-                        <li><i class="fa-brands  fa-twitter"></i></li>
-                        <li><i class="fa-brands fa-instagram"></i></li>
-                        <li><i class="fa-brands fa-facebook"></i></li>
-                        <li><i class="fa-brands fa-linkedin"></i></li>
-                        <li><i class="fa-brands fa-github"></i></li>
-                        <li><i class="fa-solid fa-phone"></i></li>
+                        <li><i className="fa-brands  fa-twitter"></i></li>
+                        <li><i className="fa-brands fa-instagram"></i></li>
+                        <li><i className="fa-brands fa-facebook"></i></li>
+                        <li><i className="fa-brands fa-linkedin"></i></li>
+                        <li><i className="fa-brands fa-github"></i></li>
+                        <li><i className="fa-solid fa-phone"></i></li>
                     </ul>
                 </div>
             </div>
