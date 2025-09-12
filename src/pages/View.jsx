@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Header from '../components/Header'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToWishlist } from '../redux/slices/wishlistSlice'
 
 
 const View = () => {
+  const userWishlist = useSelector(state => state.wishlistReducer)
+  const dispatch = useDispatch()
   const {id} = useParams()
   // console.log(id)
 
@@ -15,6 +19,16 @@ const View = () => {
   },[])
   console.log(product)
 
+  const handleAddToWishlist = ()=>{
+    const existingProduct = userWishlist?.find(item=>item.id==product.id)
+    if(existingProduct){
+      alert("Product already exist in your wishlist")
+
+    }else{
+      dispatch(addToWishlist(product))
+    }
+  }
+
   return (
 
     <>
@@ -25,7 +39,7 @@ const View = () => {
           {/* image and buttons */}
           <div>
             <img src={product?.thumbnail} height={'400px'} width={'400px'} alt="no image" />
-            <div className='flex justify-between mt-5'> <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add to whishlist</button>
+            <div className='flex justify-between mt-5'> <button onClick={handleAddToWishlist} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add to whishlist</button>
 
               <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Add to Cart</button>
 

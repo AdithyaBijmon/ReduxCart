@@ -19,7 +19,7 @@ const Home = () => {
       <Header />
       <div className='pt-30 mx-5'>
        {loading? 
-       <p>Loading</p> 
+       <div className='d-flex justify-content-center align-items-center mt-5 text-center'><img class="d-block mx-auto" src="https://gifdb.com/images/high/buffering-animated-text-icon-loading-u1h739who8u5mtw3.gif" alt=""  width={'300px'}/></div> 
        : <div className='grid grid-cols-4 gap-4'>
         {
           allProducts?.length>0?
