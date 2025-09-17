@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { decrementQty, emptyCart, incrementQty, removeCartItem } from '../redux/slices/cartSlice'
 
 const Cart = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const userCart = useSelector(state => state.cartReducer)
   const [cartTotal,setCartTotal] = useState(0)
 
@@ -12,6 +15,21 @@ const Cart = () => {
      setCartTotal(Math.ceil(userCart?.map(item=>item.totalPrice).reduce((prev,curr)=>prev+curr)))
     }
   },[userCart])
+
+  const handleDecrementQty = (product)=>{
+    if(product.quantity>1){
+      dispatch(decrementQty(product.id))
+    }
+    else{
+      dispatch(removeCartItem(product.id))
+    }
+  }
+
+  const checkout = ()=>{
+    dispatch(emptyCart())
+    alert("Your order is confirmed successfully,Thank you for shopping with us❤️")
+    navigate('/')
+  }
   return (
     <>
       <Header />
@@ -45,13 +63,13 @@ const Cart = () => {
                   <td><Link to={`/${product?.id}/view`}><img src={product?.thumbnail} alt="product" height={'70px'} width={'70px'} /></Link></td>
                   <td>
                     <div className="flex">
-                      <button className='font-bold'>-</button>
+                      <button onClick={()=>handleDecrementQty(product)} className='font-bold'>-</button>
                       <input type="text" style={{ width: '40px' }} className='border p-1 mx-3 rounded' value={product?.quantity} readOnly />
-                      <button className='font-bold'>+</button>
+                      <button onClick={()=>dispatch(incrementQty(product?.id))} className='font-bold'>+</button>
                     </div>
                   </td>
                   <td>$ {product?.totalPrice}</td>
-                  <td><i className="fa-solid fa-trash text-red-500"></i></td>
+                  <td onClick={()=>dispatch(removeCartItem(product?.id))}><i className="fa-solid fa-trash text-red-500"></i></td>
                 </tr>
                 ))
                }
@@ -59,8 +77,8 @@ const Cart = () => {
             </table>
 
             <div className="float-right mt-4">
-              <button className='bg-red-500 p-2  rounded text-white my-3 mx-2'>EMPTY CART</button>
-              <button className='bg-green-600 p-2  rounded text-white my-3 mx-2'>SHOP MORE</button>
+              <button onClick={()=>dispatch(emptyCart())} className='bg-red-500 p-2  rounded text-white my-3 mx-2'>EMPTY CART</button>
+              <button className='bg-green-600 p-2  rounded text-white my-3 mx-2'><Link to={'/'}>SHOP MORE</Link></button>
             </div>
           </div>
 
@@ -69,7 +87,7 @@ const Cart = () => {
           <div className="col-span-1 rounded p-5 shadow">
             <h3 className='font-bold text-2xl'>Total amount : <span className='text-red-500'>$ {cartTotal}</span></h3>
             <hr className='text-zinc-200' />
-            <button className='bg-green-600 p-2 w-full rounded text-white my-3 text-xl'>CHECK OUT</button>
+            <button onClick={checkout} className='bg-green-600 p-2 w-full rounded text-white my-3 text-xl'>CHECK OUT</button>
           </div>
 
         </div>
