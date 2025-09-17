@@ -2,11 +2,24 @@ import React from 'react'
 import Header from '../components/Header'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeWishlistItem } from '../redux/slices/wishlistSlice'
+import { addToCart } from '../redux/slices/cartSlice'
+
 
 const Wishlist = () => {
   const dispatch = useDispatch()
 
   const ourWishlist = useSelector(state => state.wishlistReducer)
+  const userCart = useSelector(state => state.cartReducer)
+
+  const handleAddToCart = (product) => {
+    dispatch(removeWishlistItem(product?.id))
+    dispatch(addToCart(product))
+    const existingProduct = userCart?.find(item => item.id == product.id)
+    if (existingProduct) {
+      alert("Product updated successfully")
+    }
+
+  }
   return (
     <>
 
@@ -16,31 +29,31 @@ const Wishlist = () => {
         <div className='grid grid-cols-4 gap-4'>
 
           {
-            ourWishlist?.length>0 ?
-            ourWishlist.map(wishlist=>(
-              <div key={wishlist?.id} className="rounded p-2 shadow">
+            ourWishlist?.length > 0 ?
+              ourWishlist.map(wishlist => (
+                <div key={wishlist?.id} className="rounded p-2 shadow">
 
-            {/* Image */}
-            <img src={wishlist?.thumbnail} alt="no image" height={'200px'} />
+                  {/* Image */}
+                  <img src={wishlist?.thumbnail} alt="no image" height={'200px'} />
 
-            <div className="text-center">
+                  <div className="text-center">
 
-              {/* Title */}
-              <h3 className='text-xl font-bold'>{wishlist?.title}</h3>
+                    {/* Title */}
+                    <h3 className='text-xl font-bold'>{wishlist?.title}</h3>
 
-              {/* Buttons */}
+                    {/* Buttons */}
 
-              <div className="flex justify-evenly my-5">
-                <button onClick={()=>dispatch(removeWishlistItem(wishlist?.id))}><i className="fa-solid fa-heart-circle-xmark text-red-500 text-xl"></i></button>
-                <i className="fa-solid fa-cart-plus text-green-500 text-xl"></i>
-              </div>
+                    <div className="flex justify-evenly my-5">
+                      <button onClick={() => dispatch(removeWishlistItem(wishlist?.id))}><i className="fa-solid fa-heart-circle-xmark text-red-500 text-xl"></i></button>
+                      <button onClick={()=>handleAddToCart(wishlist)}><i className="fa-solid fa-cart-plus text-green-500 text-xl"></i></button>
+                    </div>
 
-            </div>
-          </div>
-            )):
-            <p className="text-center font-bold my-10">Your Wishlist is empty..</p>
+                  </div>
+                </div>
+              )) :
+              <p className="text-center font-bold my-10">Your Wishlist is empty..</p>
           }
-          
+
         </div>
       </div>
 

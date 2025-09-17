@@ -1,13 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const Cart = () => {
+  const userCart = useSelector(state => state.cartReducer)
+  const [cartTotal,setCartTotal] = useState(0)
+
+  useEffect(()=>{
+   if(userCart?.length>0) {
+     setCartTotal(Math.ceil(userCart?.map(item=>item.totalPrice).reduce((prev,curr)=>prev+curr)))
+    }
+  },[userCart])
   return (
-    <> 
-    <Header />
+    <>
+      <Header />
       <div className='pt-30 mx-5'>
         <h1 className=" my-3 text-5xl font-bold">Cart Summary</h1>
-        <div className='grid grid-cols-3 gap-4'>
+       {userCart?.length>0?
+       
+       <div className='grid grid-cols-3 gap-4'>
 
           {/* Table */}
 
@@ -25,20 +37,24 @@ const Cart = () => {
               </thead>
 
               <tbody>
-                <tr >
-                  <td>1</td>
-                  <td>Lipstick</td>
-                  <td><img src="https://t3.ftcdn.net/jpg/05/33/57/46/360_F_533574640_yn5N7owRVh8677uTycfP7WsEirRUNU6Q.jpg" alt="product" height={'70px'} width={'70px'} /></td>
+               {
+                userCart?.map((product,index)=>(
+                   <tr >
+                  <td>{index+1}</td>
+                  <td><Link to={`/${product?.id}/view`} className='text-blue-500 underline'>{product?.title?.slice(0,20)}...</Link></td>
+                  <td><Link to={`/${product?.id}/view`}><img src={product?.thumbnail} alt="product" height={'70px'} width={'70px'} /></Link></td>
                   <td>
                     <div className="flex">
                       <button className='font-bold'>-</button>
-                      <input type="text" style={{width:'40px'}} className='border p-1 mx-3 rounded' value={10} readOnly />
-                       <button className='font-bold'>+</button>
+                      <input type="text" style={{ width: '40px' }} className='border p-1 mx-3 rounded' value={product?.quantity} readOnly />
+                      <button className='font-bold'>+</button>
                     </div>
                   </td>
-                  <td>₹ 260</td>
+                  <td>$ {product?.totalPrice}</td>
                   <td><i className="fa-solid fa-trash text-red-500"></i></td>
                 </tr>
+                ))
+               }
               </tbody>
             </table>
 
@@ -51,12 +67,16 @@ const Cart = () => {
           {/* Total */}
 
           <div className="col-span-1 rounded p-5 shadow">
-            <h3 className='font-bold text-2xl'>Total amount : <span className='text-red-500'>₹ 260</span></h3>
+            <h3 className='font-bold text-2xl'>Total amount : <span className='text-red-500'>$ {cartTotal}</span></h3>
             <hr className='text-zinc-200' />
             <button className='bg-green-600 p-2 w-full rounded text-white my-3 text-xl'>CHECK OUT</button>
           </div>
-         
+
         </div>
+        :
+        <p className="font-bold text-red-600 text-xl my-10">Your cart is empty...</p>
+        
+        }
       </div></>
   )
 }
