@@ -9,10 +9,10 @@ const Header = ({ insideHeader }) => {
 
     const userWishlist = useSelector(state => state.wishlistReducer)
     const userCart = useSelector(state => state.cartReducer)
-    
+
     return (
         <nav className='flex w-full bg-sky-700 p-5 text-white font-bold justify-between fixed'>
-            <Link className='text-2xl' to={'/'}><i className="fa-solid fa-truck-fast me-1"></i><span>Daily Cart</span></Link>
+            <Link className='text-2xl ' to={'/'}><i className="fa-solid fa-truck-fast me-1"></i><span>Daily Cart</span></Link>
 
             <ul className='flex items-center justify-center'>
                 {insideHeader && <input onChange={e=>dispatch(searchProduct(e.target.value))} type="text" placeholder="Search products here..." class="px-4 py-2 border border-gray-300 rounded-md  focus:border-transparent"
